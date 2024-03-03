@@ -8,6 +8,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -20,23 +21,26 @@ public class RabbitmqConfig {
     public static final String exchangeName="message-exchange";
     public static final String customerQueue="customer-queue";
     public static final String logisticsQueue="logistics-queue";
-    public static final String storageQueue="starage-queue";
+    public static final String storageQueue="storage-queue";
 
     public RabbitmqConfig(CachingConnectionFactory cachingConnectionFactory) {
         this.cachingConnectionFactory = cachingConnectionFactory;
     }
 
     @Bean
+    @Qualifier("customerQueue")
     public Queue customerQueue(){
         return new Queue(customerQueue);
     }
 
     @Bean
+    @Qualifier("logisticsQueue")
     public Queue logisticsQueue(){
         return new Queue(logisticsQueue);
     }
 
     @Bean
+    @Qualifier("storageQueue")
     public Queue storageQueue(){ return new Queue(storageQueue); }
 
     @Bean
@@ -45,8 +49,21 @@ public class RabbitmqConfig {
     }
 
     @Bean
-    public Binding binding(Queue queue, FanoutExchange exchange){
-        return BindingBuilder.bind(queue).to(exchange);
+    @Qualifier("bindingCustomerQueue")
+    public Binding binding(@Qualifier("customerQueue") Queue customerQueue, FanoutExchange exchange){
+        return BindingBuilder.bind(customerQueue).to(exchange);
+    }
+
+    @Bean
+    @Qualifier("bindingLogisticsQueue")
+    public Binding bindingLogisticsQueue(@Qualifier("logisticsQueue") Queue logisticsQueue, FanoutExchange exchange){
+        return BindingBuilder.bind(logisticsQueue).to(exchange);
+    }
+
+    @Bean
+    @Qualifier("bindingStorageQueue")
+    public Binding bindingStorageQueue(@Qualifier("storageQueue") Queue storageQueue, FanoutExchange exchange){
+        return BindingBuilder.bind(storageQueue).to(exchange);
     }
 
     @Bean
