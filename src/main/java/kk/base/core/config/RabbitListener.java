@@ -8,17 +8,15 @@ import static kk.base.core.config.RabbitmqConfig.*;
 public class RabbitListener {
 
     @org.springframework.amqp.rabbit.annotation.RabbitListener(queues = {customerQueue})
-    public void aVoid(String message) {
+    public void customerListener(String message) {
 
     }
-
     @org.springframework.amqp.rabbit.annotation.RabbitListener(queues = {logisticsQueue})
-    public void bVoid(String message) {
+    public void logisticsListener(String message) {
 
     }
-
     @org.springframework.amqp.rabbit.annotation.RabbitListener(queues = {storageQueue})
-    public void cVoid(String message) {
+    public void storageListener(String message) {
 
     }
 }
