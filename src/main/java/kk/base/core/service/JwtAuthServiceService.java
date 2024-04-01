@@ -39,7 +39,7 @@ public class JwtAuthServiceService implements AuthenticationService{
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
         UserDetails user = userDetailsService.loadUserByUsername(loginDto.getUsername());
-        loginDto.setPassword(jwtService.generateToken(user));
+        loginDto.setToken(jwtService.generateToken(user));
         return loginDto;
     }
 
