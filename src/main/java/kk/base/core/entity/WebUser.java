@@ -1,6 +1,8 @@
 package kk.base.core.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,10 +11,12 @@ import java.util.Collection;
 
 @Entity
 @Table(name = "web_user")
+@Builder
 public class WebUser implements UserDetails {
     @Id
     @Column(updatable = false)
-    @SequenceGenerator(name = "sequence_web_user", sequenceName = "sequence_web_user")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_web_user")
+    @SequenceGenerator(name = "sequence_web_user", sequenceName = "sequence_web_user", allocationSize = 1)
     private Long id;
     @Column(name = "username")
     private String username;
@@ -34,8 +38,6 @@ public class WebUser implements UserDetails {
     private LocalDateTime lastLoginDate;
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
-
-    public WebUser(){}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -71,7 +73,6 @@ public class WebUser implements UserDetails {
     public boolean isEnabled() {
         return isEnabled;
     }
-
 
 
 }
