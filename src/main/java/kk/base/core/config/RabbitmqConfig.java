@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
 
-@Configuration
+//@Configuration
 public class RabbitmqConfig {
 
     private final CachingConnectionFactory cachingConnectionFactory;

@@ -2,7 +2,9 @@ package kk.base.core.service;
 
 import jakarta.transaction.Transactional;
 import kk.base.core.dto.LoginDto;
+import kk.base.core.dto.LoginResponse;
 import kk.base.core.dto.SignUpDto;
+import kk.base.core.dto.UserResponse;
 import kk.base.core.entity.WebUser;
 import kk.base.core.repository.WebUserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -35,12 +37,16 @@ public class JwtAuthServiceService implements AuthenticationService{
     }
 
     @Override
-    public LoginDto signIn(LoginDto loginDto) {
+    public LoginResponse signIn(LoginDto loginDto) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
-        UserDetails user = userDetailsService.loadUserByUsername(loginDto.getUsername());
-        loginDto.setToken(jwtService.generateToken(user));
-        return loginDto;
+        WebUser user = userDetailsService.loadUserByUsername(loginDto.getUsername());
+        LoginResponse response = new LoginResponse();
+        response.setAccessToken(jwtService.generateToken(user));
+        UserResponse userResponse = new UserResponse();
+        userResponse.setName(user.getFirstName()+" ".concat(user.getLastName()));
+        response.setUser(userResponse);
+        return response;
     }
 
     @Override

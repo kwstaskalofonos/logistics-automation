@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import static kk.base.core.config.RabbitmqConfig.*;
 
-@Component
+//@Component
 public class RabbitListener {
 
     @org.springframework.amqp.rabbit.annotation.RabbitListener(queues = {customerQueue})

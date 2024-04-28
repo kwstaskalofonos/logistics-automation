@@ -18,7 +18,7 @@ public class WebUserDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public WebUser loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<WebUser> user = webUserRepository.findByUsername(username);
         if(user.isEmpty()) {
             throw new UsernameNotFoundException("User with username "+username+" not found.");
