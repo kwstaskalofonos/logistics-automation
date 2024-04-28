@@ -18,6 +18,26 @@ create table web_user(
 	creation_date timestamp default CURRENT_TIMESTAMP
 );
 
+CREATE SEQUENCE sequence_web_role START 1;
 
+create table web_role(
+	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_web_role'),
+	name VARCHAR(255) not null
+);
+
+create table web_user_role(
+	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	user_id BIGINT not null,
+	role_id BIGINT not null,
+	CONSTRAINT fk_user
+      FOREIGN KEY(user_id)
+        REFERENCES web_user(id),
+    CONSTRAINT fk_role
+      FOREIGN KEY(role_id)
+        REFERENCES web_role(id)
+);
+
+create unique index idx_web_user_role
+on web_user_role(user_id,role_id);
 
 insert into current_patch(id, patch) values (1,'Initial patch');
