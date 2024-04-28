@@ -25,6 +25,10 @@ create table web_role(
 	name VARCHAR(255) not null
 );
 
+insert into web_role values(nextVal('sequence_web_role'),'CUSTOMER');
+insert into web_role values(nextVal('sequence_web_role'),'LOGISTICS');
+insert into web_role values(nextVal('sequence_web_role'),'STORAGE');
+
 create table web_user_role(
 	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 	user_id BIGINT not null,
