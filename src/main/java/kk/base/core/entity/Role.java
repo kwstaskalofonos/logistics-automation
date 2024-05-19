@@ -21,9 +21,17 @@ public class Role implements Serializable {
     @Enumerated(EnumType.STRING)
     private WebRoles name;
 
+    public WebRoles getName() { return name; }
+
     public enum WebRoles {
         CUSTOMER,
         LOGISTICS,
-        STORAGE
+        STORAGE,
+        COORDINATOR
+    }
+
+    @Override
+    public String toString() {
+        return getName().name();
     }
 }

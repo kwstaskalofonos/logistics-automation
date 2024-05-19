@@ -7,9 +7,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import java.util.List;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "web_user")
@@ -43,6 +44,12 @@ public class WebUser implements UserDetails {
     private LocalDateTime lastLoginDate;
     @Column(name = "creation_date")
     private LocalDateTime creationDate;
+    @ManyToMany
+    @JoinTable(
+            name = "web_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -79,5 +86,8 @@ public class WebUser implements UserDetails {
         return isEnabled;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
 
 }

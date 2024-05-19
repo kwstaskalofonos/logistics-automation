@@ -5,6 +5,7 @@ import kk.base.core.dto.LoginDto;
 import kk.base.core.dto.LoginResponse;
 import kk.base.core.dto.SignUpDto;
 import kk.base.core.dto.UserResponse;
+import kk.base.core.entity.Role;
 import kk.base.core.entity.WebUser;
 import kk.base.core.repository.WebUserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,6 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -42,9 +47,14 @@ public class JwtAuthServiceService implements AuthenticationService{
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
         WebUser user = userDetailsService.loadUserByUsername(loginDto.getUsername());
         LoginResponse response = new LoginResponse();
-        response.setAccessToken(jwtService.generateToken(user));
+        Map<String, Object> extraClaims = new HashMap<>();
+        String role = user.getRoles().stream().map(Role::toString).findFirst()
+                .orElse(null);
+        extraClaims.put("roles",role);
         UserResponse userResponse = new UserResponse();
+        userResponse.setAccessToken(jwtService.generateToken(extraClaims,user));
         userResponse.setName(user.getFirstName()+" ".concat(user.getLastName()));
+        userResponse.setRole(role);
         response.setUser(userResponse);
         return response;
     }
