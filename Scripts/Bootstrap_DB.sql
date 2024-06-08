@@ -30,8 +30,10 @@ insert into web_role values(nextVal('sequence_web_role'),'LOGISTICS');
 insert into web_role values(nextVal('sequence_web_role'),'STORAGE');
 insert into web_role values(nextVal('sequence_web_role'),'COORDINATOR');
 
+CREATE SEQUENCE sequence_web_user_role START 1;
+
 create table web_user_role(
-	id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_web_user_role'),
 	user_id BIGINT not null,
 	role_id BIGINT not null,
 	CONSTRAINT fk_user

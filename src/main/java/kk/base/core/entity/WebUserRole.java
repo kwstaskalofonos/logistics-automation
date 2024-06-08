@@ -1,9 +1,6 @@
 package kk.base.core.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -11,6 +8,8 @@ import lombok.*;
 public class WebUserRole {
     @Id
     @Column(updatable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_web_user_role")
+    @SequenceGenerator(name = "sequence_web_user_role", sequenceName = "sequence_web_user_role", allocationSize = 1)
     private Long id;
     @Column(name = "user_id")
     private WebUser user;
