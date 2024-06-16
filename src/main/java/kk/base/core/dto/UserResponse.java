@@ -3,7 +3,6 @@ package kk.base.core.dto;
 public class UserResponse {
     private String name;
     private String email;
-    private String role;
     private String accessToken;
 
     public String getName() {
@@ -21,10 +20,6 @@ public class UserResponse {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    public String getRole() { return role; }
-
-    public void setRole(String role) { this.role = role; }
 
     public String getAccessToken() {
         return accessToken;

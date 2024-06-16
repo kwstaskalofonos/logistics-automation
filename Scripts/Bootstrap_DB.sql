@@ -25,10 +25,8 @@ create table web_role(
 	name VARCHAR(255) not null
 );
 
-insert into web_role values(nextVal('sequence_web_role'),'CUSTOMER');
-insert into web_role values(nextVal('sequence_web_role'),'LOGISTICS');
-insert into web_role values(nextVal('sequence_web_role'),'STORAGE');
-insert into web_role values(nextVal('sequence_web_role'),'COORDINATOR');
+insert into web_role values(nextVal('sequence_web_role'),'SIMPLE_USER');
+insert into web_role values(nextVal('sequence_web_role'),'ADMIN');
 
 CREATE SEQUENCE sequence_web_user_role START 1;
 
@@ -46,5 +44,25 @@ create table web_user_role(
 
 create unique index idx_web_user_role
 on web_user_role(user_id,role_id);
+
+CREATE SEQUENCE sequence_customer START 1;
+create table customer(
+	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_customer'),
+	title VARCHAR(255) not null,
+	creation_date timestamp default CURRENT_TIMESTAMP
+);
+
+CREATE SEQUENCE sequence_company START 1;
+create table company(
+	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_company'),
+	name VARCHAR(100) not null,
+	company_type VARCHAR(50) not null,
+	creation_date timestamp default CURRENT_TIMESTAMP
+);
+
+alter table web_user
+add company_id bigint;
+alter table web_user
+add constraint fk_company foreign key (company_id) references company(id);
 
 insert into current_patch(id, patch) values (1,'Initial patch');

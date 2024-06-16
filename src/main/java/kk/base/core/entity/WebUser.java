@@ -1,10 +1,7 @@
 package kk.base.core.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "web_user")
+@Getter
 @Builder
 @NoArgsConstructor
 @Data
@@ -50,6 +48,9 @@ public class WebUser implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

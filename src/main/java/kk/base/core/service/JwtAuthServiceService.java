@@ -50,11 +50,12 @@ public class JwtAuthServiceService implements AuthenticationService{
         Map<String, Object> extraClaims = new HashMap<>();
         String role = user.getRoles().stream().map(Role::toString).findFirst()
                 .orElse(null);
-        extraClaims.put("roles",role);
+        extraClaims.put("role",role);
+        extraClaims.put("companyType",user.getCompany().getCompanyType().toString());
+        extraClaims.put("companyName",user.getCompany().getName());
+        extraClaims.put("name",user.getFirstName()+" ".concat(user.getLastName()));
         UserResponse userResponse = new UserResponse();
         userResponse.setAccessToken(jwtService.generateToken(extraClaims,user));
-        userResponse.setName(user.getFirstName()+" ".concat(user.getLastName()));
-        userResponse.setRole(role);
         response.setUser(userResponse);
         return response;
     }

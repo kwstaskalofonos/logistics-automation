@@ -24,10 +24,8 @@ public class Role implements Serializable {
     public WebRoles getName() { return name; }
 
     public enum WebRoles {
-        CUSTOMER,
-        LOGISTICS,
-        STORAGE,
-        COORDINATOR
+        SIMPLE_USER,
+        ADMIN
     }
 
     @Override
