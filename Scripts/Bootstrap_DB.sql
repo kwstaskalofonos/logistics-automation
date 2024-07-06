@@ -65,4 +65,29 @@ add company_id bigint;
 alter table web_user
 add constraint fk_company foreign key (company_id) references company(id);
 
+CREATE SEQUENCE sequence_item START 1;
+create table item (
+	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_item'),
+	title VARCHAR(255) not null,
+	external_code VARCHAR(255) not null,
+	price numeric not null,
+	uom VARCHAR(20) not null
+);
+
+insert into item values(nextVal('sequence_item'),'item title 1','extcode123',12.34,'unit');
+insert into item values(nextVal('sequence_item'),'item title 2','extcode124',12.34,'pallet');
+insert into item values(nextVal('sequence_item'),'item title 3','extcode125',12.34,'pallet');
+insert into item values(nextVal('sequence_item'),'item title 4','extcode126',12.34,'unit');
+insert into item values(nextVal('sequence_item'),'item title 5','extcode127',12.34,'unit');
+insert into item values(nextVal('sequence_item'),'item title 6','extcode128',3.52,'unit');
+insert into item values(nextVal('sequence_item'),'item title 7','extcode129',4.52,'pallet');
+insert into item values(nextVal('sequence_item'),'item title 8','extcode130',4.52,'pallet');
+insert into item values(nextVal('sequence_item'),'item title 9','extcode131',3.52,'unit');
+insert into item values(nextVal('sequence_item'),'item title 10','extcode132',5.67,'unit');
+insert into item values(nextVal('sequence_item'),'item title 11','extcode133',0.45,'unit');
+insert into item values(nextVal('sequence_item'),'item title 12','extcode134',0.45,'pallet');
+insert into item values(nextVal('sequence_item'),'item title 13','extcode145',0.45,'pallet');
+insert into item values(nextVal('sequence_item'),'item title 14','extcode136',0.45,'unit');
+insert into item values(nextVal('sequence_item'),'item title 15','extcode137',0.45,'unit');
+
 insert into current_patch(id, patch) values (1,'Initial patch');
