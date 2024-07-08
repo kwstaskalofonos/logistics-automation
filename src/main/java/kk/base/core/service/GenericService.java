@@ -32,7 +32,8 @@ public abstract class GenericService<E,D> {
         List<D> dtoContent = entityPage.getContent().stream()
                 .map(e -> Utils.mapToDto(e,dtoClass))
                 .toList();
-        return new PageImpl<>(dtoContent,pageable, dtoContent.size());
+        Page<D> dtoPage = new PageImpl<>(dtoContent,pageable, entityPage.getTotalElements());
+        return dtoPage;
     }
 
 }
