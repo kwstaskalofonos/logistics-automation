@@ -32,4 +32,7 @@ public class Item implements Serializable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Uom uom;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "company_id")
+    private Company company;
 }

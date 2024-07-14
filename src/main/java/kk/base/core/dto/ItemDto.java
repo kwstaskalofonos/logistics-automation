@@ -14,4 +14,5 @@ public class ItemDto {
     private Long id;
     private String title;
     private Uom uom;
+    private String externalCode;
 }

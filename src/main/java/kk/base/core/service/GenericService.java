@@ -1,5 +1,6 @@
 package kk.base.core.service;
 
+import kk.base.core.entity.Company;
 import kk.base.core.paging.FiltersDto;
 import kk.base.core.paging.GenericSpecs;
 import kk.base.core.repository.GenericRepository;
@@ -25,15 +26,15 @@ public abstract class GenericService<E,D> {
     }
 
     public Page<D> dynamic(FiltersDto filters) {
-        Specification<E> specs = genericSpecs.areFieldsLike(filters);
+        Company company = CurrentUserUtils.getCompany();
+        Specification<E> specs = genericSpecs.areFieldsLike(filters,company);
         PageRequest pageable = PageRequest.of(filters.getPageNo(), filters.getPageSize());
         Page<E> entityPage = genericRepository.findAll(specs,pageable);
 
         List<D> dtoContent = entityPage.getContent().stream()
                 .map(e -> Utils.mapToDto(e,dtoClass))
                 .toList();
-        Page<D> dtoPage = new PageImpl<>(dtoContent,pageable, entityPage.getTotalElements());
-        return dtoPage;
+        return new PageImpl<>(dtoContent,pageable, entityPage.getTotalElements());
     }
 
 }
