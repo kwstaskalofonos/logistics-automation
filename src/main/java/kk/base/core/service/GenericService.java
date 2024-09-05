@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class GenericService<E,D> {
 
