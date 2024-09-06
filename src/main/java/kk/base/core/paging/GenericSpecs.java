@@ -16,7 +16,9 @@ public class GenericSpecs<E> {
         return (root, query, criteriaBuilder) -> {
 
             List<Predicate> predicates = new ArrayList<>();
-            predicates.add(criteriaBuilder.equal(root.get("company"),company));
+            if(!Utils.isEmpty(company)) {
+                predicates.add(criteriaBuilder.equal(root.get("company"),company));
+            }
             for (FieldValueDto field : filters.getFields()) {
                 if (!Utils.isEmpty(field.getType()) && field.getType() == FieldType.NUMBER) {
                     predicates.add(criteriaBuilder.equal(root.get(field.getFieldName()), field.getValue()));

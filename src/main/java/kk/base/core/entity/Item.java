@@ -27,8 +27,10 @@ public class Item implements Serializable {
     private String title;
     @Column(name = "external_code",nullable = false)
     private String externalCode;
+    @Column(name = "lot_number",nullable = false)
+    private String lotNumber;
     @Column(nullable = false)
-    private BigDecimal price;
+    private BigDecimal quantity;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Uom uom;

@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/items")
 @Transactional
-public class ItemsController {
+public class ItemController {
 
     private final ItemService itemService;
 
-    public ItemsController(ItemService itemService) {
+    public ItemController(ItemService itemService) {
         this.itemService = itemService;
     }
 
     @PostMapping(value = "/dynamic")
     public ResponseEntity<Page<?>> searchByFilters(@AuthenticationPrincipal WebUser user, @RequestBody FiltersDto filters) {
-        return ResponseEntity.ok(itemService.dynamic(filters));
+        return ResponseEntity.ok(itemService.dynamic(filters, true));
     }
 }

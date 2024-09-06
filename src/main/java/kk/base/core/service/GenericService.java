@@ -24,8 +24,8 @@ public abstract class GenericService<E,D> {
         this.dtoClass = dtoClass;
     }
 
-    public Page<D> dynamic(FiltersDto filters) {
-        Company company = CurrentUserUtils.getCompany();
+    public Page<D> dynamic(FiltersDto filters, boolean filterByOwner) {
+        Company company = Boolean.TRUE.equals(filterByOwner) ? CurrentUserUtils.getCompany() : null;
         Specification<E> specs = genericSpecs.areFieldsLike(filters,company);
         PageRequest pageable = PageRequest.of(filters.getPageNo(), filters.getPageSize());
         Page<E> entityPage = genericRepository.findAll(specs,pageable);
