@@ -8,6 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class CustomerService extends GenericService<Customer, CustomerDto>{
     protected CustomerService(GenericRepository<Customer> genericRepository) {
-        super(genericRepository, CustomerDto.class);
+        super(genericRepository, CustomerDto.class, Customer.class);
     }
 }

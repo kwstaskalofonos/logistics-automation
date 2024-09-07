@@ -9,6 +9,6 @@ import org.springframework.stereotype.Service;
 public class ItemService extends GenericService<Item, ItemDto>{
 
     protected ItemService(GenericRepository<Item> genericRepository) {
-        super(genericRepository, ItemDto.class);
+        super(genericRepository, ItemDto.class, Item.class);
     }
 }

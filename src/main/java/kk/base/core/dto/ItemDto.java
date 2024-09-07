@@ -12,11 +12,23 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class ItemDto {
+public class ItemDto extends ResponseDto<ItemDto>{
     private Long id;
     private String title;
     private Uom uom;
     private String externalCode;
     private String lotNumber;
     private BigDecimal quantity;
+
+    @Override
+    public String toString() {
+        return "ItemDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", uom=" + uom +
+                ", externalCode='" + externalCode + '\'' +
+                ", lotNumber='" + lotNumber + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
 }
