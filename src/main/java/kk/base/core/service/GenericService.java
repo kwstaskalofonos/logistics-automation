@@ -1,6 +1,6 @@
 package kk.base.core.service;
 
-import kk.base.core.dto.ResponseDto;
+import kk.base.core.dto.BaseDto;
 import kk.base.core.entity.Company;
 import kk.base.core.paging.FiltersDto;
 import kk.base.core.paging.GenericSpecs;
@@ -12,17 +12,17 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.lang.reflect.Field;
-import java.nio.file.AccessDeniedException;
+import java.time.LocalDateTime;
 import java.util.List;
 
-public abstract class GenericService<E,D> {
+public abstract class GenericService<E, D, ID> {
 
-    private final GenericRepository<E> genericRepository;
+    private final GenericRepository<E, ID> genericRepository;
     private final GenericSpecs<E> genericSpecs;
     private final Class<D> dtoClass;
     private final Class<E> entityClass;
 
-    protected GenericService(GenericRepository<E> genericRepository, Class<D> dtoClass, Class<E> entityClass) {
+    protected GenericService(GenericRepository<E, ID> genericRepository, Class<D> dtoClass, Class<E> entityClass) {
         this.genericRepository = genericRepository;
         this.genericSpecs = new GenericSpecs<E>();
         this.dtoClass = dtoClass;
@@ -31,31 +31,45 @@ public abstract class GenericService<E,D> {
 
     public Page<D> dynamic(FiltersDto filters, boolean filterByOwner) {
         Company company = Boolean.TRUE.equals(filterByOwner) ? CurrentUserUtils.getCompany() : null;
-        Specification<E> specs = genericSpecs.areFieldsLike(filters,company);
+        Specification<E> specs = genericSpecs.areFieldsLike(filters, company);
         PageRequest pageable = PageRequest.of(filters.getPageNo(), filters.getPageSize());
-        Page<E> entityPage = genericRepository.findAll(specs,pageable);
+        Page<E> entityPage = genericRepository.findAll(specs, pageable);
 
         List<D> dtoContent = entityPage.getContent().stream()
-                .map(e -> Utils.mapToDto(e,dtoClass))
+                .map(e -> Utils.mapToDto(e, dtoClass))
                 .toList();
-        return new PageImpl<>(dtoContent,pageable, entityPage.getTotalElements());
+        return new PageImpl<>(dtoContent, pageable, entityPage.getTotalElements());
     }
 
-    public ResponseDto<D> create(D dto) throws NoSuchFieldException, IllegalAccessException {
-        Company company = CurrentUserUtils.getCompany();
-        E entity = Utils.mapToEntity(dto,entityClass);
-        Field entityField = entityClass.getDeclaredField("company");
+    public BaseDto<D> create(D dto, boolean filterByOwner) throws NoSuchFieldException, IllegalAccessException {
+        E entity = Utils.mapToEntity(dto, entityClass);
+        if (Boolean.TRUE.equals(filterByOwner)) {
+            Company company = CurrentUserUtils.getCompany();
+            Field entityField = entityClass.getDeclaredField("company");
+            entityField.setAccessible(true);
+            entityField.set(entity, company);
+        }
+        Field entityField = entityClass.getSuperclass().getDeclaredField("creationDate");
         entityField.setAccessible(true);
-        entityField.set(entity,company);
+        entityField.set(entity, LocalDateTime.now());
         entity = genericRepository.save(entity);
-        return (ResponseDto<D>) Utils.mapToDto(entity, dtoClass);
+        return (BaseDto<D>) Utils.mapToDto(entity, dtoClass);
     }
 
-    public ResponseDto<D> getOne(Long id) throws AccessDeniedException {
-        Company company = CurrentUserUtils.getCompany();
-        Specification<E> specs = genericSpecs.byId(id,company);
+    public BaseDto<D> getOne(Long id, boolean filterByOwner) {
+        Company company = Boolean.TRUE.equals(filterByOwner) ? CurrentUserUtils.getCompany() : null;
+        Specification<E> specs = genericSpecs.byId(id, company);
         List<E> results = genericRepository.findAll(specs);
-        if(Utils.isEmpty(results)) return new ResponseDto<D>();
-        return (ResponseDto<D>) Utils.mapToDto(results.get(0), dtoClass);
+        if (Utils.isEmpty(results)) return new BaseDto<D>();
+        return (BaseDto<D>) Utils.mapToDto(results.get(0), dtoClass);
+    }
+
+    public List<D> getAll(boolean filterByOwner) {
+        Company company = Boolean.TRUE.equals(filterByOwner) ? CurrentUserUtils.getCompany() : null;
+        Specification<E> specs = genericSpecs.areFieldsLike(new FiltersDto(), company);
+        List<E> results = genericRepository.findAll(specs);
+        return results.stream()
+                .map(e -> Utils.mapToDto(e, dtoClass))
+                .toList();
     }
 }

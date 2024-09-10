@@ -49,6 +49,8 @@ CREATE SEQUENCE sequence_customer START 1;
 create table customer(
 	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_customer'),
 	title VARCHAR(255) not null,
+	address VARCHAR(250),
+	phone bigint,
 	creation_date timestamp default CURRENT_TIMESTAMP
 );
 
@@ -79,30 +81,5 @@ create table item (
 
 alter table item
 add constraint fk_company foreign key (company_id) references company(id);
-
-insert into item values(nextVal('sequence_item'),'item title 1',55.34,'extcode123','56675','UNIT',1);
-insert into item values(nextVal('sequence_item'),'item title 2',55.34,'extcode124','35325','PALLET',1);
-insert into item values(nextVal('sequence_item'),'item title 3',55.34,'extcode125','22222','BOX',1);
-insert into item values(nextVal('sequence_item'),'item title 4',55.34,'extcode126','45454','UNIT',1);
-insert into item values(nextVal('sequence_item'),'item title 5',55.34,'extcode127','87896','UNIT',1);
-insert into item values(nextVal('sequence_item'),'item title 6',55.34,'extcode128','26563','UNIT',1);
-insert into item values(nextVal('sequence_item'),'item title 7',55.34,'extcode129','352523','PALLET',1);
-insert into item values(nextVal('sequence_item'),'item title 8',55.34,'extcode130','532532','PALLET',1);
-insert into item values(nextVal('sequence_item'),'item title 9',55.34,'extcode131','35253','UNIT',1);
-insert into item values(nextVal('sequence_item'),'item title 10',55.34,'extcode132','61253','BOX',3);
-insert into item values(nextVal('sequence_item'),'item title 11',55.34,'extcode133','82253','UNIT',3);
-insert into item values(nextVal('sequence_item'),'item title 12',55.34,'extcode134','35253','PALLET',3);
-insert into item values(nextVal('sequence_item'),'item title 13',55.34,'extcode145','35453','PALLET',3);
-insert into item values(nextVal('sequence_item'),'item title 14',55.34,'extcode136','87253','UNIT',3);
-insert into item values(nextVal('sequence_item'),'item title 15',55.34,'extcode137','12253','UNIT',3);
-
-
-insert into customer values(nextVal('sequence_customer'),'Customer 1');
-insert into customer values(nextVal('sequence_customer'),'Customer 2');
-insert into customer values(nextVal('sequence_customer'),'Customer 3');
-insert into customer values(nextVal('sequence_customer'),'Customer 4');
-insert into customer values(nextVal('sequence_customer'),'Customer 5');
-insert into customer values(nextVal('sequence_customer'),'Customer 6');
-insert into customer values(nextVal('sequence_customer'),'Customer 7');
 
 insert into current_patch(id, patch) values (1,'Initial patch');

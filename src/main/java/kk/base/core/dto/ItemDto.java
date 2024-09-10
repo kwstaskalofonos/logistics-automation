@@ -12,8 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class ItemDto extends ResponseDto<ItemDto>{
-    private Long id;
+public class ItemDto extends BaseDto<ItemDto> {
     private String title;
     private Uom uom;
     private String externalCode;
@@ -23,7 +22,6 @@ public class ItemDto extends ResponseDto<ItemDto>{
     @Override
     public String toString() {
         return "ItemDto{" +
-                "id=" + id +
                 ", title='" + title + '\'' +
                 ", uom=" + uom +
                 ", externalCode='" + externalCode + '\'' +

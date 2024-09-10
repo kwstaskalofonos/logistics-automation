@@ -1,4 +1,4 @@
-package kk.base.core.controller.coordinator;
+package kk.base.core.controller;
 
 import jakarta.transaction.Transactional;
 import kk.base.core.dto.ItemDto;
@@ -11,8 +11,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.nio.file.AccessDeniedException;
 
 @RestController
 @RequestMapping("/api/items")
@@ -33,11 +31,16 @@ public class ItemController {
 
     @PostMapping(value = "/create")
     public ResponseEntity<?> create(@AuthenticationPrincipal WebUser user, @RequestBody ItemDto dto) throws NoSuchFieldException, IllegalAccessException {
-        return ResponseEntity.ok(itemService.create(dto));
+        return ResponseEntity.ok(itemService.create(dto, true));
     }
 
     @GetMapping(value = "/get/{id}")
-    public ResponseEntity<?> getOne(@AuthenticationPrincipal WebUser user, @PathVariable Long id) throws AccessDeniedException {
-        return ResponseEntity.ok(itemService.getOne(id));
+    public ResponseEntity<?> getOne(@AuthenticationPrincipal WebUser user, @PathVariable Long id) {
+        return ResponseEntity.ok(itemService.getOne(id, true));
+    }
+
+    @GetMapping(value = "/all")
+    public ResponseEntity<?> getAll(@AuthenticationPrincipal WebUser user) {
+        return ResponseEntity.ok(itemService.getAll(true));
     }
 }

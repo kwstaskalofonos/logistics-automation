@@ -1,6 +1,18 @@
 package kk.base.core.entity;
 
-public class BaseEntity {
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+import lombok.Getter;
+import lombok.Setter;
 
-    private Long id;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@MappedSuperclass
+public abstract class BaseEntity implements Serializable {
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime creationDate;
 }

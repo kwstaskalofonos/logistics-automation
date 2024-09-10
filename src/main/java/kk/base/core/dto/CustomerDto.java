@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class CustomerDto {
-    private Long id;
+public class CustomerDto extends BaseDto<CustomerDto> {
     private String title;
+    private String address;
+    private int phone;
 }

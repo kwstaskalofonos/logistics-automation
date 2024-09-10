@@ -1,6 +1,7 @@
 package kk.base.core.utils;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +25,12 @@ public class Utils {
             for (Field entityField : entity.getClass().getDeclaredFields()) {
                 entityField.setAccessible(true);
                 try {
-                    Field dtoField = dtoClass.getDeclaredField(entityField.getName());
+                    Field dtoField;
+                    if("id".equals(entityField.getName())) {
+                        dtoField = dtoClass.getSuperclass().getDeclaredField("id");
+                    } else {
+                        dtoField = dtoClass.getDeclaredField(entityField.getName());
+                    }
                     dtoField.setAccessible(true);
                     dtoField.set(dto, entityField.get(entity));
                 } catch (NoSuchFieldException e) {

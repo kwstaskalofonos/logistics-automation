@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
@@ -17,7 +16,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class Item implements Serializable {
+public class Item extends BaseEntity {
     @Id
     @Column(updatable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_item")

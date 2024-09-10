@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "customer")
@@ -14,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class Customer {
+public class Customer extends BaseEntity{
     @Id
     @Column(updatable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_customer")
@@ -22,6 +21,9 @@ public class Customer {
     private Long id;
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
-    private LocalDateTime creationDate;
+    @Column
+    private String address;
+    @Column
+    private int phone;
+
 }
