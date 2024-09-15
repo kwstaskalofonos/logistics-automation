@@ -82,4 +82,38 @@ create table item (
 alter table item
 add constraint fk_company foreign key (company_id) references company(id);
 
+CREATE SEQUENCE sequence_customer_order START 1;
+create table customer_order (
+	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_customer_order'),
+	status VARCHAR(255) not null,
+	company_id bigint not null,
+	customer_id bigint not null,
+	created_by bigint not null,
+	creation_date timestamp default CURRENT_TIMESTAMP,
+	CONSTRAINT fk_company_id
+          FOREIGN KEY(company_id)
+            REFERENCES company(id),
+    CONSTRAINT fk_customer_id
+              FOREIGN KEY(customer_id)
+                REFERENCES customer(id),
+    CONSTRAINT fk_user_id
+                  FOREIGN KEY(created_by)
+                    REFERENCES web_user(id)
+);
+
+CREATE SEQUENCE sequence_item_order START 1;
+create table item_customer_order (
+	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_item_order'),
+	order_id bigint not null,
+	item_id bigint not null,
+	quantity numeric not null default 0.00,
+	creation_date timestamp default CURRENT_TIMESTAMP,
+	CONSTRAINT fk_order_id
+          FOREIGN KEY(order_id)
+            REFERENCES customer_order(id),
+    CONSTRAINT fk_item_id
+              FOREIGN KEY(item_id)
+                REFERENCES item(id)
+);
+
 insert into current_patch(id, patch) values (1,'Initial patch');
