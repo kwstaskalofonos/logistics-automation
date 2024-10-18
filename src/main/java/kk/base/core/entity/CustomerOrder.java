@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "item")
+@Table(name = "customer_order")
 @Builder
 @NoArgsConstructor
 @Data
@@ -20,6 +20,8 @@ public class CustomerOrder extends BaseEntity{
     @SequenceGenerator(name = "sequence_customer_order", sequenceName = "sequence_customer_order", allocationSize = 1)
     private Long id;
     @Column
+    private String description;
+    @Column
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
     @ManyToOne()
@@ -28,6 +30,9 @@ public class CustomerOrder extends BaseEntity{
     @ManyToOne()
     @JoinColumn(name = "customer_id")
     private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "created_by")
+    private WebUser createdBy;
 
     public enum OrderStatus {
         TEMPORARY,

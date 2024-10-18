@@ -17,7 +17,7 @@ import java.util.List;
 
 public abstract class GenericService<E, D, ID> {
 
-    private final GenericRepository<E, ID> genericRepository;
+    protected final GenericRepository<E, ID> genericRepository;
     private final GenericSpecs<E> genericSpecs;
     private final Class<D> dtoClass;
     private final Class<E> entityClass;

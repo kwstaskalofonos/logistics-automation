@@ -85,6 +85,7 @@ add constraint fk_company foreign key (company_id) references company(id);
 CREATE SEQUENCE sequence_customer_order START 1;
 create table customer_order (
 	id BIGINT PRIMARY KEY DEFAULT nextval('sequence_customer_order'),
+	description VARCHAR(255) not null,
 	status VARCHAR(255) not null,
 	company_id bigint not null,
 	customer_id bigint not null,
