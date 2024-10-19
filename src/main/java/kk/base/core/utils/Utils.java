@@ -32,7 +32,13 @@ public class Utils {
                         dtoField = dtoClass.getDeclaredField(entityField.getName());
                     }
                     dtoField.setAccessible(true);
-                    dtoField.set(dto, entityField.get(entity));
+
+                    if(dtoField.getType().isAssignableFrom(entityField.getType())) {
+                        dtoField.set(dto, entityField.get(entity));
+                    } else {
+                        dtoField.set(dto, mapToDto(entityField.get(entity),dtoField.getType()));
+                    }
+
                 } catch (NoSuchFieldException e) {
                     // If the field doesn't exist in DTO, continue to the next field
                     continue;
