@@ -12,6 +12,6 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class FullCustomerOrderDto{
-    private CustomerOrderDto orderDto;
+    private CustomerOrderDto order;
     private List<ItemCustomerOrderDto> items;
 }

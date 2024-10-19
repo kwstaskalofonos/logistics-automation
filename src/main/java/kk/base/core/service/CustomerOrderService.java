@@ -12,13 +12,13 @@ import kk.base.core.utils.Utils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerOrderService extends GenericService<CustomerOrder, CustomerOrderDto, Long>{
+
     private final CustomerOrderRepository customerOrderRepository;
     private final ItemCustomerOrderRepository itemCustomerOrderRepository;
+
     protected CustomerOrderService(CustomerOrderRepository customerOrderRepository, ItemCustomerOrderRepository itemCustomerOrderRepository) {
         super(customerOrderRepository, CustomerOrderDto.class, CustomerOrder.class);
         this.customerOrderRepository = customerOrderRepository;
@@ -40,7 +40,7 @@ public class CustomerOrderService extends GenericService<CustomerOrder, Customer
                 .stream().map(item -> Utils.mapToDto(item, ItemCustomerOrderDto.class))
                 .toList();
         return FullCustomerOrderDto.builder()
-                .orderDto(Utils.mapToDto(order, CustomerOrderDto.class))
+                .order(Utils.mapToDto(order, CustomerOrderDto.class))
                 .items(items)
                 .build();
     }

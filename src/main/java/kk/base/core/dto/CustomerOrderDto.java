@@ -14,5 +14,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CustomerOrderDto extends BaseDto<CustomerOrderDto>{
     private String description;
+    private CustomerDto customer;
     private CustomerOrder.OrderStatus status;
 }

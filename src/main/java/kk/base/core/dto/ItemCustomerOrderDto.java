@@ -13,6 +13,6 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 public class ItemCustomerOrderDto extends BaseDto<ItemCustomerOrderDto>{
-    private Item item;
+    private ItemDto item;
     private BigDecimal quantity;
 }
